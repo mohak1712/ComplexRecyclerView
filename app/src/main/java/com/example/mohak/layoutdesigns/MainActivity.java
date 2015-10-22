@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +22,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        if (getSupportActionBar()!=null)
+        {
+            getSupportActionBar().setTitle("Complex Recycler View");
+
+        }
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         Adapter adapter = new Adapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -66,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     v = inflater.inflate(R.layout.single_rec_3, null);
                     viewholder = new MyViewHolder(v,viewType);
                     break;
-
 
             }
             return viewholder;
@@ -118,15 +126,33 @@ public class MainActivity extends AppCompatActivity {
                             holder.imageView2.setVisibility(View.INVISIBLE);
                             holder.imageView3.setVisibility(View.INVISIBLE);
                             holder.imageView5.findViewById(View.INVISIBLE);
+                            holder.textView.setVisibility(View.INVISIBLE);
                             holder.imageView4.setAlpha(1.f);
                         } else {
                             holder.imageView2.setVisibility(View.VISIBLE);
-                            holder.imageView3.setVisibility(View.VISIBLE);
                             holder.imageView5.setVisibility(View.VISIBLE);
                             Animation animation = AnimationUtils.loadAnimation(c, R.anim.img);
                             Animation animation2 = AnimationUtils.loadAnimation(c, R.anim.img2);
+                            Animation animation3 = AnimationUtils.loadAnimation(c, R.anim.text);
+                            holder.textView.startAnimation(animation3);
                             holder.imageView2.startAnimation(animation);
                             holder.imageView3.startAnimation(animation2);
+                            animation3.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+                                    holder.imageView3.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
                             animation2.setAnimationListener(new Animation.AnimationListener() {
                                 @Override
                                 public void onAnimationStart(Animation animation) {
